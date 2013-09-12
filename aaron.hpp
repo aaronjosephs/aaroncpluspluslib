@@ -1,3 +1,5 @@
+#ifndef AARON_HPP
+#define AARON_HPP
 #include <vector>
 #include <utility>
 #include <iterator>
@@ -84,3 +86,4 @@ int main () {
             },
             v1.begin(),v1.end(),v2.begin(),v3.begin(),v4.begin());
 }
+#endif
