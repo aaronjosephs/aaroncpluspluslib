@@ -10,5 +10,6 @@ int main () {
             std::cout << i << " " << j << " " << k << " " << l << std::endl;
             },
             v1.begin(),v1.end(),v2.begin(),v3.begin(),v4.begin());
+    return 0;
 }
 
