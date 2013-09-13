@@ -8,6 +8,16 @@
 #include <iostream>
 namespace aaron {
     using ulong = unsigned long long;
+
+    //Struct allows function to be called on each element
+    //of param pack in order like this:
+    //pass{ (function(args), 1)...}; // the comma operator allows you
+    //to use a function that returns void
+    struct pass {
+        template <typename .. Types>
+            pass (Types...) {}
+    };
+
     template <typename Iterator, typename Function>
         Function enumerate(Iterator begin, 
                 Iterator end, 
@@ -18,15 +28,18 @@ namespace aaron {
                 func(start, *begin);
             return func;
         }
+
     template <typename Iterator>
         void advance_all (Iterator & iterator) {
             ++iterator;
         }
+
     template <typename Iterator, typename ... Iterators>
         void advance_all (Iterator & iterator, Iterators& ... iterators) {
             ++iterator;
             advance_all(iterators...);
-        } 
+        }
+
     template <typename Function, typename Iterator, typename ... Iterators>
         Function zip (Function func, Iterator begin, 
                 Iterator end, 
@@ -37,6 +50,7 @@ namespace aaron {
             //could also make this a tuple
             return func;
         }
+
     //Math functions
     //Sieve of Eratostothenes
     std::vector<int> generate_sieve(const ulong & max) {
