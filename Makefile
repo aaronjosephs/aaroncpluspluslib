@@ -13,7 +13,7 @@ ASM=-S
 BOOST=-D__BOOST__
 
 test: test.cpp aaron.hpp
-	$(CC) $(CFLAGS) $< -o $@ $(DEBUG) $(word $(ONUM), $(OPT)) $(BOOST)
+	$(CC) $(CFLAGS) $< -o $@ $(DEBUG) $(word $(ONUM), $(OPT))
 
 clean:
 	rm test

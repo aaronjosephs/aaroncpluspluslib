@@ -5,10 +5,10 @@
 #include <iterator>
 #include <algorithm>
 #include <tuple>
-#ifdef __BOOST__
+//#ifdef __BOOST__
 #include <boost/iterator/zip_iterator.hpp>
 #include <boost/range.hpp>
-#endif //__BOOST__
+//#endif //__BOOST__
 
 //macro for index
 #define foreach(index,elem,range) \
@@ -65,7 +65,7 @@ namespace aaron {
             return func;
         }
 
-#ifdef __BOOST__
+//#ifdef __BOOST__
     //Boost aided functions
     template <typename... Containers>
         auto zip(const Containers&... containers) -> 
@@ -100,6 +100,8 @@ namespace aaron {
                     container.begin()+end);
         }
 
+//#endif //__BOOST__
+
     //Math functions
     //Sieve of Eratostothenes
     std::vector<int> generate_sieve(const ulong & max) {
@@ -127,7 +129,6 @@ namespace aaron {
         }
         return sieve;
     }
-#endif //__BOOST__
     //Prime factorization
     std::vector<ulong> prime_factors(ulong number) {
         auto primes = generate_sieve(number/2+1);
