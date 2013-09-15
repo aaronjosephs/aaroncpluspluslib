@@ -31,20 +31,28 @@ int main () {
         std::cout << i << std::endl;
     }
     std::cout << std::endl << "Variadic template zip iterator" << std::endl;
-    /*
     for (auto i : aaron::myzip(v1,v2,v3)) {
         std::cout << std::get<0>(i) << " " 
             << std::get<1>(i) << " "
             << std::get<2>(i) << std::endl;
     }
-    */
     auto zippy = aaron::zip_iter<decltype(v1.begin()),decltype(v2.begin()),decltype(v3.begin())>
             (v1.begin(),v2.begin(),v3.begin());
-    ++zippy;
-    auto t = *zippy;
-    auto zippy2(zippy);
-    std::cout << (zippy2 != ++zippy) << std::endl;
-    std::cout << std::get<0>(*zippy) << " " << std::get<1>(t) << " " << std::get<2>(t) << std::endl;
+    auto zippend = aaron::zip_iter<decltype(v1.begin()),decltype(v2.begin()),decltype(v3.begin())>
+            (v1.end(),v2.end(),v3.end());
+    auto range = aaron::iterator_range<decltype(zippy)>(zippy,zippend);
+    for (auto i : range){
+        std::cout << std::get<0>(i) << " " 
+            << std::get<1>(i) << " "
+            << std::get<2>(i) << std::endl;
+    }
+
+    //++zippy;
+    //auto t = *zippy;
+    //auto zippy2(zippy);
+    //std::cout << (zippy2 != ++zippy) << std::endl;
+    //std::cout << std::get<0>(*zippy) << " " << std::get<1>(t) << " " << std::get<2>(t) << std::endl;
+    
     return 0;
 }
 

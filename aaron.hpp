@@ -72,71 +72,65 @@ namespace aaron {
             Second iter2;
             using Elem1_t = decltype(*iter1);
             using Elem2_t = decltype(*iter2);
-            Elem1_t elem1;
-            Elem2_t elem2;
+            //Elem1_t elem1;
+            //Elem2_t elem2;
             zip_iter(const First & f, const Second & s) :
-                iter1(f),iter2(s),elem1(*f),elem2(*s) { }
-            auto  operator*() -> decltype(std::make_tuple(elem1,elem2)){
-                return std::make_tuple(elem1,elem2);
+                iter1(f),iter2(s) { }
+            auto  operator*() -> decltype(std::make_tuple(*iter1,*iter2)){
+                return std::make_tuple(*iter1,*iter2);
             }
             zip_iter & operator++() {
                 ++iter1;
                 ++iter2;
-                elem1 = *iter1;
-                elem2 = *iter2;
                 return *this;
             }
-            /*
             bool operator!=(const zip_iter & rhs) {
-                return this->iter != rhs.iter;
+                return (this->iter1 != rhs.iter1) || (this->iter2 != rhs.iter2);
             }
-            */
-            //don't think I need this because only the first one matters
         };
     template <typename First, typename ... Rest>
         struct zip_iter<First,Rest...> {
             First iter;
             using Elem_t = decltype(*iter);
-            Elem_t elem;
+            //Elem_t elem;
             zip_iter<Rest...> inner_iter;
             zip_iter(const First & f, const Rest ... rest) :
-                iter(f),elem(*f),
+                iter(f),
                 inner_iter(rest...) {}
             using tuple_t = decltype(
-                    std::tuple_cat(std::make_tuple(elem),*inner_iter)
+                    std::tuple_cat(std::make_tuple(*iter),*inner_iter)
                     );
             tuple_t operator*() {
-                return std::tuple_cat(std::make_tuple(elem),*inner_iter);
+                return std::tuple_cat(std::make_tuple(*iter),*inner_iter);
             };
             zip_iter & operator++() {
                 ++iter;
                 ++inner_iter;
-                elem = *iter;
                 return *this;
             }
             bool operator!=(const zip_iter & rhs) {
-                return this->iter != rhs.iter;
+                return (this->iter != rhs.iter) || (this->inner_iter != rhs.inner_iter);
             }
         };
    template <typename Iterator>
       struct iterator_range {
           Iterator begin_;
           Iterator end_;
-          iterator_range(Iterator begin,Iterator end) :
+          iterator_range(Iterator begin, Iterator end) :
               begin_(begin),end_(end) {}
           Iterator begin() {
-              return begin();
+              return begin_;
           }
           Iterator end() {
-              return end();
+              return end_;
           }
       };
    template <typename ... Containers>
        auto myzip(const Containers & ... containers) ->
                iterator_range<zip_iter<decltype(containers.begin())...>>
         {
-            auto begin = zip_iter<Containers...>(containers.begin()...);
-            auto end = zip_iter<Containers...>((containers.end())...);
+            auto begin = zip_iter<decltype(containers.begin())...>(containers.begin()...);
+            auto end = zip_iter<decltype(containers.end())...>(containers.end()...);
             return iterator_range<decltype(begin)>(begin,end);
         }
 
