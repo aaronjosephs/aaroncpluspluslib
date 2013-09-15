@@ -2,8 +2,8 @@
 
 int main () {
     std::vector<int> v1{1,2,3};
-    std::vector<int> v2{3,2,1};
-    std::vector<float> v3{1.2,2.4,9.0};
+    std::vector<int> v2{3,2,1,2};
+    std::vector<float> v3{1.2,2.4,9.0,6.7};
     std::vector<float> v4{1.2,2.4,9.0};
     std::cout << "zip with lambda test" << std::endl;
     aaron::zip (
@@ -17,11 +17,13 @@ int main () {
         std::cout << i << " " << j << std::endl;
     endforeach;
     std::cout << std::endl << "Boost aided zip test" << std::endl;
+    /*
     for (auto i : aaron::zip(v1,v2,v3)) {
         std::cout << i.get<0>() << " " 
             << i.get<1>() << " "
             << i.get<2>() << std::endl;
     }
+    */
     std::cout << std::endl << "Reverse test" << std::endl;
     for (auto i : aaron::reverse(v1)) {
         std::cout << i << std::endl;
@@ -36,6 +38,7 @@ int main () {
             << std::get<1>(i) << " "
             << std::get<2>(i) << std::endl;
     }
+    /*
     auto zippy = aaron::zip_iter<decltype(v1.begin()),decltype(v2.begin()),decltype(v3.begin())>
             (v1.begin(),v2.begin(),v3.begin());
     auto zippend = aaron::zip_iter<decltype(v1.begin()),decltype(v2.begin()),decltype(v3.begin())>
@@ -46,6 +49,7 @@ int main () {
             << std::get<1>(i) << " "
             << std::get<2>(i) << std::endl;
     }
+    */
 
     //++zippy;
     //auto t = *zippy;

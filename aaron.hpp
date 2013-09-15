@@ -85,7 +85,7 @@ namespace aaron {
                 return *this;
             }
             bool operator!=(const zip_iter & rhs) {
-                return (this->iter1 != rhs.iter1) || (this->iter2 != rhs.iter2);
+                return (this->iter1 != rhs.iter1) && (this->iter2 != rhs.iter2);
             }
         };
     template <typename First, typename ... Rest>
@@ -109,7 +109,7 @@ namespace aaron {
                 return *this;
             }
             bool operator!=(const zip_iter & rhs) {
-                return (this->iter != rhs.iter) || (this->inner_iter != rhs.inner_iter);
+                return (this->iter != rhs.iter) && (this->inner_iter != rhs.inner_iter);
             }
         };
    template <typename Iterator>
