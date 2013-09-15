@@ -150,6 +150,59 @@ namespace aaron {
                    container.begin()+begin,
                    container.begin()+end);
        }
+/*
+   //chain operates only as a range, it has no iterator
+   //this is because each iterator would have to be aware of
+   //it's end for this to work
+   template <typename ... Containers>
+       class chain;
+   template <typename Container>
+       class chain<Container> {
+           using Iterator = decltype(*((Container*)nullptr));
+           Iterator begin;
+           const Iterator end;//never really used but kept it for consistency
+           chain(const Container & container) :
+               begin(container.begin()),end(container.end()) {}
+           chain & operator++()
+           {
+               ++begin;
+               return *this;
+           }
+           auto operator*()->decltype(*begin)
+           {
+               return *begin;
+           }
+           bool operator!=(const Iterator & rhs) {
+               return this->begin != rhs.begin;
+           }
+       }
+   template <typename Container, typename ... Containers>
+       class chain<Container,Containers...>
+       {
+           using Iterator = decltype(*((Container*)nullptr));
+           Iterator begin;
+           const Iterator end;
+           chain<Containers...> next_iter;
+           chain(Container container, Containers ... rest) :
+               begin(container.begin()),
+               end(container.end(),
+               next_iter(rest...) {}
+           chain & operator++()
+           {
+               if (begin == end) {
+                   ++next_iter;
+               }
+               ++begin;
+               return *this;               
+           }
+           auto operator*()->decltype(*begin)
+           {
+               if (begin == end) return *next_iter;
+               else return *begin;
+           }   
+        };
+*/
+
 
 //#ifdef __BOOST__
     //Boost aided functions

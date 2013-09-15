@@ -1,6 +1,6 @@
-CFLAGS=-std=c++11 
-CFLAGS+=-stdlib=libc++
-CC=clang++
+CXXFLAGS=-std=c++11 
+CXXFLAGS+=-stdlib=libc++
+CXX=clang++
 #flags for test.c
 cc=clang
 DEBUG=-g
@@ -13,7 +13,7 @@ ASM=-S
 BOOST=-D__BOOST__
 
 test: test.cpp aaron.hpp
-	$(CC) $(CFLAGS) $< -o $@ $(DEBUG) $(word $(ONUM), $(OPT))
+	$(CXX) $(CXXFLAGS) $< -o $@ $(DEBUG) $(word $(ONUM), $(OPT))
 
 clean:
 	rm test
