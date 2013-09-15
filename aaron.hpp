@@ -64,6 +64,11 @@ namespace aaron {
             //could also make this a tuple
             return func;
         }
+    template <int N,typename Tuple>
+        auto zip_get(Tuple & t)->decltype(*std::get<N>(t))&
+        {
+            return *std::get<N>(t);
+        }
     template <typename ... Rest>
         struct zip_iter;
     template <typename First, typename Second>
@@ -72,13 +77,20 @@ namespace aaron {
             Second iter2;
             using Elem1_t = decltype(*iter1);
             using Elem2_t = decltype(*iter2);
-            //Elem1_t elem1;
-            //Elem2_t elem2;
             zip_iter(const First & f, const Second & s) :
                 iter1(f),iter2(s) { }
-            auto  operator*() -> decltype(std::make_tuple(*iter1,*iter2)){
+
+            auto operator*() -> decltype(std::make_tuple(iter1,iter2))
+            {
+                return std::make_tuple(iter1,iter2);
+            }
+
+/*
+            auto  operator*() -> decltype(std::make_tuple(*iter1,*iter2))
+            {
                 return std::make_tuple(*iter1,*iter2);
             }
+*/
             zip_iter & operator++() {
                 ++iter1;
                 ++iter2;
@@ -97,12 +109,24 @@ namespace aaron {
             zip_iter(const First & f, const Rest & ... rest) :
                 iter(f),
                 inner_iter(rest...) {}
-            using tuple_t = decltype(
-                    std::tuple_cat(std::make_tuple(*iter),*inner_iter)
-                    );
+                        
+              //this is for returning a tuple of iterators
+            using tuple_t = 
+                decltype(std::tuple_cat(std::make_tuple(iter),*inner_iter));
+
+            tuple_t operator*() {
+                return std::tuple_cat(std::make_tuple(iter),*inner_iter);
+            }
+             
+/*
+            using tuple_t = 
+                decltype(std::tuple_cat(std::make_tuple(*iter),*inner_iter));
+            //data will not be changed because these are not references
+
             tuple_t operator*() {
                 return std::tuple_cat(std::make_tuple(*iter),*inner_iter);
             };
+*/
             zip_iter & operator++() {
                 ++iter;
                 ++inner_iter;
@@ -126,7 +150,7 @@ namespace aaron {
           }
       };
    template <typename ... Containers>
-       auto myzip(const Containers & ... containers) ->
+       auto myzip(Containers & ... containers) ->
                iterator_range<zip_iter<decltype(containers.begin())...>>
         {
             auto begin = zip_iter<decltype(containers.begin())...>(containers.begin()...);
