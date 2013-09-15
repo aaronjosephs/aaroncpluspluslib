@@ -22,11 +22,11 @@ int main () {
             << i.get<1>() << " "
             << i.get<2>() << std::endl;
     }
-    std::cout << std::endl << "Boost aided reverse test" << std::endl;
+    std::cout << std::endl << "Reverse test" << std::endl;
     for (auto i : aaron::reverse(v1)) {
         std::cout << i << std::endl;
     }
-    std::cout << std::endl << " Boost aided slice" << std::endl;
+    std::cout << std::endl << "Aided slice" << std::endl;
     for (auto i : aaron::slice(v1,0,2)) {
         std::cout << i << std::endl;
     }

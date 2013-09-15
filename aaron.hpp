@@ -133,7 +133,23 @@ namespace aaron {
             auto end = zip_iter<decltype(containers.end())...>(containers.end()...);
             return iterator_range<decltype(begin)>(begin,end);
         }
-
+   template <typename Container>
+       auto reverse(const Container & container) -> iterator_range<decltype(container.rbegin())>
+       {
+           return 
+               iterator_range<decltype(container.rbegin())>(container.rbegin(),container.rend());
+       }
+   template <typename Container>
+       auto slice(
+               Container container,
+               typename std::iterator_traits<decltype(container.begin())>::difference_type begin,
+               typename std::iterator_traits<decltype(container.begin())>::difference_type end
+               ) -> iterator_range<decltype(container.begin())>
+       {
+           return iterator_range<decltype(container.begin())>(
+                   container.begin()+begin,
+                   container.begin()+end);
+       }
 
 //#ifdef __BOOST__
     //Boost aided functions
@@ -151,7 +167,7 @@ namespace aaron {
             return boost::make_iterator_range(zip_begin, zip_end);
         }
     template <typename Container>
-        auto reverse(const Container & container) -> 
+        auto boost_reverse(const Container & container) -> 
             decltype(boost::make_iterator_range(container.rbegin(),container.rend()))
             {
                 return boost::make_iterator_range(container.rbegin(),container.rend());
@@ -159,7 +175,7 @@ namespace aaron {
 
     //slice type range good for use in range style for loops
     template <typename Container>
-        auto slice(
+        auto boost_slice(
                 Container container,
                 typename std::iterator_traits<decltype(container.begin())>::difference_type begin,
                 typename std::iterator_traits<decltype(container.begin())>::difference_type end
