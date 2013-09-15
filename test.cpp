@@ -1,10 +1,13 @@
 #include "aaron.hpp"
+#include <vector>
+#include <array>
 
 int main () {
     std::vector<int> v1{1,2,3};
-    std::vector<int> v2{3,2,1,2};
+    std::vector<int> v2{4,5,6,7};
     std::vector<float> v3{1.2,2.4,9.0,6.7};
     std::vector<float> v4{1.2,2.4,9.0};
+    std::array<int,3> a5{{8,9,10}};
     std::cout << "zip with lambda test" << std::endl;
     aaron::zip (
             [](int i,int j,float k,float l){
@@ -37,6 +40,15 @@ int main () {
         std::cout << std::get<0>(i) << " " 
             << std::get<1>(i) << " "
             << std::get<2>(i) << std::endl;
+    }
+    std::cout << std::endl << "Chain iter test" << std::endl;
+    auto range = aaron::chain(v1,v2,a5);
+    for (auto iter = range.begin(); iter != range.end();++iter) {
+        std::cout << *iter << std::endl;
+    }
+    //std::cout << *(++(++(++(range.begin())))) << std::endl;
+    for (auto i : aaron::chain(v1,v2,a5)) {
+        std::cout << i << std::endl;
     }
     /*
     auto zippy = aaron::zip_iter<decltype(v1.begin()),decltype(v2.begin()),decltype(v3.begin())>
