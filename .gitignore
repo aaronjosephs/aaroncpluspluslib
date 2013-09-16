@@ -1,2 +1,8 @@
 test
 test.dSYM
+zip.hpp
+slice.hpp
+chain.hpp
+reverse.hpp
+itertools.hpp
+test2.cpp
