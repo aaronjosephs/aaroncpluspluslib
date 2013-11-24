@@ -352,5 +352,25 @@ namespace aaron {
     int func (int i) {
         return i;
     }
+    //nth product generator
+    template <typename Iter>                                                           
+        int multiply_range(Iter begin, Iter end) {                                         
+            int i = 1;                                                                     
+            for (;begin != end; ++begin) {                                                 
+                i *= *begin;                                                               
+            }                                                                              
+            return i;                                                                      
+        }                                                                                  
+
+    std::vector<int> nth_product(std::initializer_list<int> list, int n) {         
+        std::vector<int> v;                                                            
+        int range_prod = multiply_range(list.begin(),list.end());                      
+        for (auto iter = list.begin(); iter != list.end(); ++iter) {                   
+            range_prod /= *iter;                                                       
+            auto i = (n / range_prod) % *iter;                                         
+            v.push_back(i);                                                            
+        }                                                                              
+        return v;                                                                      
+    } 
 }
 #endif
